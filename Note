@@ -1,3 +1,6 @@
 _- 1) when working on a project try to really understand what you are working on and little by little it will click even if you have to seek help but give it a try.
 _- in here we are starting with the expensesOutput and we'd recive a prop for the expenses and for that we know expenses will be an array of numbers or object{expenses} where every array represents an expense and an expense is not just a number it has a date(number/strings) title description maybe and id etc, and for the summary a short description is needed so now we know how to write the first logic
 .reduce() => is a javascript method that's executed on arrays which allows us to combine multipule values in an array into a single value
+
+- it's important to note that when trying to navigate from a screen that isn't regisered as a screen we use a hook(useNavigation)
+  Another way to use the screensoption(in this project to navigate to another screen because it's a registered screen), is to use it as a function that way it recives the navigation props and we then use the navigate option in where we want.
