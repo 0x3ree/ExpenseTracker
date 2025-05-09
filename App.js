@@ -22,11 +22,11 @@ function BottomScreen() {
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: GlobalStyles.color.primary500 },
         tabBarActiveTintColor: GlobalStyles.color.accent500,
-        headerRight: ({ tintColor }) => (
+        headerRight: ({ color }) => (
           <IconButton
             icon="add-to-list"
             size={24}
-            color={tintColor}
+            color={color}
             onTap={() => {
               navigation.navigate("ManageExpenses");
             }}
@@ -65,13 +65,24 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: GlobalStyles.color.primary500 },
+            headerTintColor: "white",
+            //  contentStyle: { backgroundColor: GlobalStyles.color.primary700 },
+          }}
+        >
           <Stack.Screen
             name="ExpensesOverview"
             component={BottomScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpenses" component={ManageExpenses} />
+          <Stack.Screen
+            name="ManageExpenses"
+            component={ManageExpenses}
+            options={{ presentation: "modal" }}
+            // we used the presentation: 'modal' to make the screen appear as a modal,which works well for ios but isn't any different for android
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

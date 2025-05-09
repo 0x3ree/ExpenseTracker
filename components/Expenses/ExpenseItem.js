@@ -3,10 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../../constants/Styles";
 import { getFormattedDate } from "../../util/Date";
 
-function ExpenseItem({ description, date, amount }) {
+function ExpenseItem({ id, description, date, amount }) {
   const navigation = useNavigation();
   function expensePressHandler() {
-    navigation.navigate("ManageExpenses");
+    // in here in order to be able to know which title appears when we click to edit an expense we need to pass an
+    // information to the manage screen the id of the expense we are trying to edit so as to use it to load the data,
+    // we do this by adding a second parameter in this case to the navigate function
+    // the reason we dont add this to the addIcon is because it doesnt have an id to pass to the manage screen as it's a new expense
+    navigation.navigate("ManageExpenses", { expenseId: id });
   }
   return (
     <Pressable

@@ -4,3 +4,7 @@ _- in here we are starting with the expensesOutput and we'd recive a prop for th
 
 - it's important to note that when trying to navigate from a screen that isn't regisered as a screen we use a hook(useNavigation)
   Another way to use the screensoption(in this project to navigate to another screen because it's a registered screen), is to use it as a function that way it recives the navigation props and we then use the navigate option in where we want.
+  \*we can update the options of a screen from inside that screen, with the help of the navigation prop(provided it is a registered screen) with the navigation.setOptions({}) and it is adviced to use this inside of a useLayoutEffect as to aviod lagging when used alone or with useEffect \*
+
+* a safe way of drilling into an objects that's defined is to use the conditional operator(?)
+* if you ever want to apply an extra setting using a prop, once its called as an argument you also declear it as a prop in the component before calling it in the component you want to add an extra style etc
