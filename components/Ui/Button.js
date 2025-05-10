@@ -6,9 +6,12 @@ function Button({ children, onTap, mode, style }) {
     // in here we use the style prop  to pass the style from the parent component to the button component(in this case where we might want to
     //  add extra styls to the button component that wasn't added in its original form)
     <View style={style}>
-      <Pressable onPress={onTap}>
+      <Pressable
+        onPress={onTap}
+        style={({ pressed }) => pressed && styles.pressed}
+      >
         <View style={[styles.button, mode === "flat" && styles.flat]}>
-          <Text style={[style.buttonText, mode === "flat" && styles.flatText]}>
+          <Text style={[styles.buttonText, mode === "flat" && styles.flatText]}>
             {children}
           </Text>
         </View>
@@ -37,5 +40,8 @@ const styles = StyleSheet.create({
     opacity: 0.75,
     backgroundColor: GlobalStyles.color.primary100,
     borderRadius: 4,
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

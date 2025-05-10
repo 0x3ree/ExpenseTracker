@@ -23,19 +23,27 @@ function ManageExpenses({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteExpenseHandler() {}
+  function deleteExpenseHandler() {
+    navigation.goBack();
+  }
 
-  function cancelHandler() {}
+  function cancelHandler() {
+    navigation.goBack();
+  }
 
-  function confirmHandler() {}
+  function confirmHandler() {
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
-      <View>
-        <Button mode="flat" onPress={cancelHandler}>
+      <View style={styles.buttons}>
+        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
           Cancel
         </Button>
-        <Button onPress={confirmHandler}>{isEditing ? "update" : "add"}</Button>
+        <Button style={styles.button} onPress={confirmHandler}>
+          {isEditing ? "update" : "add"}
+        </Button>
       </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
@@ -43,7 +51,7 @@ function ManageExpenses({ route, navigation }) {
             name="trash"
             color={GlobalStyles.color.error500}
             size={36}
-            onPres={deleteExpenseHandler}
+            onPress={deleteExpenseHandler}
           />
         </View>
       )}
@@ -65,5 +73,16 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: GlobalStyles.color.primary200,
     alignItems: "center",
+  },
+  // was called as a prop in the button component
+  // this is used to add extra styles to the button component in the view component
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
 });
