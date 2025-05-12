@@ -41,7 +41,4 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.color.primary100,
     borderRadius: 4,
   },
-  pressed: {
-    opacity: 0.75,
-  },
 });
