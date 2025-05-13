@@ -8,3 +8,5 @@ _- in here we are starting with the expensesOutput and we'd recive a prop for th
 
 * a safe way of drilling into an objects that's defined is to use the conditional operator(?)
 * if you ever want to apply an extra setting using a prop, once its called as an argument you also declear it as a prop in the component before calling it in the component you want to add an extra style etc
+** diffifulty(Hard)- context, when using context we first import it and then we sore ur first value in a variable (ExpensesContext) and also add the export in order for us to use in other files, which we need to do in order to access the context from inside other components.
+for the next step we pass an initial value to createContext()(which is not used as an initial value but as a default value which will help with auto completion when used in other components) and then add functions that will be used to update the expenses array
