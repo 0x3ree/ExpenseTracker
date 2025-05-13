@@ -1,13 +1,13 @@
 import { StyleSheet, Pressable, View, Text } from "react-native";
 import { GlobalStyles } from "../../constants/Styles";
 
-function Button({ children, onTap, mode, style }) {
+function Button({ children, onPress, mode, style }) {
   return (
     // in here we use the style prop  to pass the style from the parent component to the button component(in this case where we might want to
     //  add extra styls to the button component that wasn't added in its original form)
     <View style={style}>
       <Pressable
-        onPress={onTap}
+        onPress={onPress}
         style={({ pressed }) => pressed && styles.pressed}
       >
         <View style={[styles.button, mode === "flat" && styles.flat]}>
