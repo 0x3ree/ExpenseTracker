@@ -8,6 +8,7 @@ import ManageExpenses from "./screens/ManageExpenses";
 import { GlobalStyles } from "./constants/Styles";
 import { Entypo } from "@expo/vector-icons";
 import IconButton from "./components/Ui/IconButton";
+import ExpensesContextProvider from "./store/expenses-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -64,27 +65,29 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: GlobalStyles.color.primary500 },
-            headerTintColor: "white",
-            //  contentStyle: { backgroundColor: GlobalStyles.color.primary700 },
-          }}
-        >
-          <Stack.Screen
-            name="ExpensesOverview"
-            component={BottomScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ManageExpenses"
-            component={ManageExpenses}
-            options={{ presentation: "modal" }}
-            // we used the presentation: 'modal' to make the screen appear as a modal,which works well for ios but isn't any different for android
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ExpensesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: GlobalStyles.color.primary500 },
+              headerTintColor: "white",
+              //  contentStyle: { backgroundColor: GlobalStyles.color.primary700 },
+            }}
+          >
+            <Stack.Screen
+              name="ExpensesOverview"
+              component={BottomScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ManageExpenses"
+              component={ManageExpenses}
+              options={{ presentation: "modal" }}
+              // we used the presentation: 'modal' to make the screen appear as a modal,which works well for ios but isn't any different for android
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }
