@@ -1,12 +1,14 @@
-import { Text, View, StyleSheet } from "react-native";
-import { useLayoutEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import { useLayoutEffect, useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/Styles";
 import Button from "../components/Ui/Button";
+import { ExpensesContext } from "../store/expenses-context";
 
 // in here using the ManageScreen to handle both the edit(when we tap an item(added expense)) and add a new expense. so when we click one the edit it shows a different title from when we click add
 
 function ManageExpenses({ route, navigation }) {
+  const expensesCtx = useContext(ExpensesContext); // this will give us access to the expenses context and the functions to update the expenses array
   const editedExpenseId = route.params?.expenseId;
   // the question mark is used to check if the expenseId is undefined or not, if it is undefined it will not throw an error and will just return undefined
   // if it is defined it will return the value of expenseId
@@ -24,6 +26,8 @@ function ManageExpenses({ route, navigation }) {
   }, [navigation, isEditing]);
 
   function deleteExpenseHandler() {
+    expensesCtx.deleteExpense(editedExpenseId);
+    // this will delete the expense from the expenses array
     navigation.goBack();
   }
 
@@ -32,6 +36,19 @@ function ManageExpenses({ route, navigation }) {
   }
 
   function confirmHandler() {
+    if (isEditing) {
+      expensesCtx.updateExpense(editedExpenseId, {
+        description: "edited test",
+        amount: 29.99,
+        date: new Date("2025-05-14"),
+      });
+    } else {
+      expensesCtx.addExpense({
+        description: "added test",
+        amount: 19.99,
+        date: new Date("2025-05-14"),
+      });
+    }
     navigation.goBack();
   }
 
