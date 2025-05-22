@@ -4,6 +4,7 @@ import { Entypo } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/Styles";
 import Button from "../components/Ui/Button";
 import { ExpensesContext } from "../store/expenses-context";
+import ExpenseForm from "../ManageExpense/ExpenseForm";
 
 // in here using the ManageScreen to handle both the edit(when we tap an item(added expense)) and add a new expense. so when we click one the edit it shows a different title from when we click add
 
@@ -54,6 +55,7 @@ function ManageExpenses({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttons}>
         <Button style={styles.button} mode="flat" onPress={cancelHandler}>
           Cancel
