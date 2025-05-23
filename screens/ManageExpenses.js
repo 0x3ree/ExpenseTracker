@@ -41,13 +41,13 @@ function ManageExpenses({ route, navigation }) {
       expensesCtx.updateExpense(editedExpenseId, {
         description: "edited test",
         amount: 29.99,
-        date: new Date("2025-05-14"),
+        date: new Date("2025-05-22"),
       });
     } else {
       expensesCtx.addExpense({
         description: "added test",
         amount: 19.99,
-        date: new Date("2025-05-14"),
+        date: new Date("2025-05-22"),
       });
     }
     navigation.goBack();

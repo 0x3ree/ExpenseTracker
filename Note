@@ -17,3 +17,6 @@ which is also used for managing more complex state in context but redux is for t
 After connecting the expenseReducer to the useReducer, likt useState it returns an array with the first value being the state and the second being the dispatch function, which we can use to update the state.
 now to use the dispatch function, we add a function and pass it to the dispatch function, and then we can use the dispatch function to update the state.
 in the end the useReducer is expected to return a new state in any given time, and the dispatch function is used to update the state.
+
+*note: when you fetch an input value, you'ill get it as a string even if the input provides a number it is still some text technically, so if we talk about the data type it's a string which we can later change to a number using the + operator or by using the Number() function.
+when handling user input in a generic way, we can use the onChangeText prop to get the value of the input and then we can use the setState function to update the state with the new value.
