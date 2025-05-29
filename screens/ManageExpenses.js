@@ -2,7 +2,6 @@ import { View, StyleSheet } from "react-native";
 import { useLayoutEffect, useContext } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/Styles";
-import Button from "../components/Ui/Button";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../ManageExpense/ExpenseForm";
 
@@ -16,6 +15,11 @@ function ManageExpenses({ route, navigation }) {
   const isEditing = !!editedExpenseId; // this will return true if editedExpenseId is not null or undefined
   // the double negation is used to convert the value to a boolean, so if it is undefined it will return false and if it is defined it will return true
   // this is a common pattern in javascript to convert a value to a boolean
+
+  // in here we want to make our input fields dynamic, so that when we click on an item to edit it, the input fields will be filled with the values of the expense that we want to edit
+  const selectedExpense = expensesCtx.expenses.find(
+    (expense) => expense.id === editedExpenseId
+  );
 
   //**we can update the options of a screen from inside that screen, with the help of the navigation
   //  prop(provided it is a registered screen) with the navigation.setOptions({}) and it is adviced to use this inside of
@@ -36,34 +40,24 @@ function ManageExpenses({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isEditing) {
-      expensesCtx.updateExpense(editedExpenseId, {
-        description: "edited test",
-        amount: 29.99,
-        date: new Date("2025-05-22"),
-      });
+      expensesCtx.updateExpense(editedExpenseId, expenseData);
     } else {
-      expensesCtx.addExpense({
-        description: "added test",
-        amount: 19.99,
-        date: new Date("2025-05-22"),
-      });
+      expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttons}>
-        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={confirmHandler}>
-          {isEditing ? "update" : "add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        submitButtonLabel={isEditing ? "update" : "add"}
+        onSubmit={confirmHandler}
+        onCancel={cancelHandler}
+        defaultValues={selectedExpense} // this will pass the selectedExpense object to the ExpenseForm component, which will be used to fill the input fields with the values of the expense that we want to edit
+      />
+
       {isEditing && (
         <View style={styles.deleteContainer}>
           <Entypo
@@ -92,16 +86,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: GlobalStyles.color.primary200,
     alignItems: "center",
-  },
-  // was called as a prop in the button component
-  // this is used to add extra styles to the button component in the view component
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
   },
 });
