@@ -20,3 +20,7 @@ in the end the useReducer is expected to return a new state in any given time, a
 
 *note: when you fetch an input value, you'ill get it as a string even if the input provides a number it is still some text technically, so if we talk about the data type it's a string which we can later change to a number using the + operator or by using the Number() function.
 when handling user input in a generic way, we can use the onChangeText prop to get the value of the input and then we can use the setState function to update the state with the new value.
+-----------------------------------------------
+{BACKEND (FIREBASE)}
+- (s)when using firebase we need to first create a project in the firebase console and then add the firebase config to our project, which is done by creating a firebase.js file and importing the firebase app and the database from the firebase package.
+- we start by creating a firebase project for our app, we create a new utility file and then import the axios package to make requests to the firebase database, we then create a function that will be used to fetch the expenses from the firebase database and then we can use this function in our app to fetch the expenses.

@@ -4,6 +4,7 @@ import { Entypo } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/Styles";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../ManageExpense/ExpenseForm";
+import { storeExpense } from "../store/http";
 
 // in here using the ManageScreen to handle both the edit(when we tap an item(added expense)) and add a new expense. so when we click one the edit it shows a different title from when we click add
 
@@ -44,6 +45,7 @@ function ManageExpenses({ route, navigation }) {
     if (isEditing) {
       expensesCtx.updateExpense(editedExpenseId, expenseData);
     } else {
+      storeExpense(expenseData); // this will send the expense data to the firebase database
       expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
