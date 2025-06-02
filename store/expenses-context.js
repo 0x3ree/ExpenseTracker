@@ -1,67 +1,4 @@
 import { createContext, useReducer } from "react";
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    description: "A jar of OJK",
-    amount: 60.15,
-    date: new Date("2025-05-22"),
-  },
-  {
-    id: "e2",
-    description: "A pair of pants",
-    amount: 39.99,
-    date: new Date("2025-05-22"),
-  },
-  {
-    id: "e3",
-    description: "A native attire",
-    amount: 19.99,
-    date: new Date("2025-05-22"),
-  },
-  {
-    id: "e4",
-    description: "A pack of cat food",
-    amount: 59.0,
-    date: new Date("2025-05-22"),
-  },
-  {
-    id: "e5",
-    description: "A pair of shoes",
-    amount: 39.99,
-    date: new Date("2025-02-22"),
-  },
-
-  {
-    id: "e6",
-    description: "A jar of OJK",
-    amount: 60.15,
-    date: new Date("2025-02-21"),
-  },
-  {
-    id: "e7",
-    description: "A pair of pants",
-    amount: 39.99,
-    date: new Date("2025-02-21"),
-  },
-  {
-    id: "e8",
-    description: "A native attire",
-    amount: 19.99,
-    date: new Date("2025-01-21"),
-  },
-  {
-    id: "e9",
-    description: "A pack of cat food",
-    amount: 59.0,
-    date: new Date("2025-01-21"),
-  },
-  {
-    id: "e10",
-    description: "A pair of shoes",
-    amount: 39.99,
-    date: new Date("2025-01-21"),
-  },
-];
 
 // this is a context that will be used to provide the expenses data to the app, after the expenses,-
 // - we then prvide functions which will be used to update the expenses array
@@ -69,6 +6,7 @@ export const ExpensesContext = createContext({
   expenses: [],
   addExpense: ({ description, amount, date }) => {}, // in here we are using the object destructuring to get the values from the object
   // this is used to add a new expense
+  setExpenses: (expenses) => {}, // this is used to set the expenses array, we are not using it in this app but we can use it to set the expenses array from the firebase database
   deleteExpense: ({ id }) => {}, // in here we expect the id of the expense. this is used to delete an expense
   updateExpense: (id, { description, amount, date }) => {}, // in here we expect the id of the expense and the new values of the expense. this is used to update an expense
 });
@@ -84,7 +22,8 @@ function expensesReducer(state, action) {
       // this will add a new expense to the expenses array
       return [{ ...action.payload, id: id }, ...state]; // when the dispatch function is called, it will call the reducer function and pass the current state and the action object to the reducer function, the reducer function will then return the new state, in here we are using the spread operator to copy the current state and add the new expense to the beginning of the array
     // the action.payload is the new expense object that we want to add to the expenses array, in here we are using the spread operator to copy the current state and add the new expense to the beginning of the array. This way we don't lose the previous expenses and we can add new expenses to the beginning of the array, so that the most recent expense is at the top of the list
-
+    case "SET":
+      return action.payload;
     case "UPDATE":
       // this will update an expense in the expenses array
       const updateableExpenseIndex = state.findIndex(
@@ -107,7 +46,7 @@ function expensesReducer(state, action) {
 
 // this fucntion will hold the logic of the context and will be used to provide the context to the app
 function ExpensesContextProvider({ children }) {
-  const [expenseState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES); // this will create the expenses array and the dispatch function that will be used to update the expenses array
+  const [expenseState, dispatch] = useReducer(expensesReducer, []); // this will create the expenses array and the dispatch function that will be used to update the expenses array
 
   // this will be used to add a new expense to the expenses array, this function will take the expenseData object and will dispatch the action to add the new expense to the expenses array
   // the Action is the value passed to the dispatch function, it is an object that contains the type of action to be performed and the payload (the data needed to perform the action)
@@ -115,6 +54,9 @@ function ExpensesContextProvider({ children }) {
     dispatch({ type: "ADD", payload: expenseData }); // this will add a new expense to the expenses array and the name(type,payload) is upto you
   }
 
+  function setExpenses(expenses) {
+    dispatch({ type: "SET", payload: expenses }); // this will set the expenses array, we are not using it in this app but we can use it to set the expenses array from the firebase database
+  }
   function deleteExpense(id) {
     dispatch({ type: "DELETE", payload: id }); // this will delete an expense from the expenses array
   }
@@ -128,6 +70,7 @@ function ExpensesContextProvider({ children }) {
   // the provider component will then pass the value to all the components that are wrapped inside it
   const value = {
     expenses: expenseState,
+    setExpenses: setExpenses,
     addExpense: addExpense,
     deleteExpense: deleteExpense,
     updateExpense: updateExpense,
