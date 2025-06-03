@@ -23,10 +23,11 @@ export async function fetchExpenses() {
     const expenseObj = {
       id: key, // this is the unique id that firebase generates for each piece of data that we store in the database
       amount: response.data[key].amount, // this will access the amount property of the expense object using the key
-      date: new Date(response.data[key.date]), // we convert the date string to a Date object, so that we can use it in our app and in firebase the date is stored as a string, so we need to convert it to a Date object to use it in our app
+      date: new Date(response.data[key].date), // we convert the date string to a Date object, so that we can use it in our app and in firebase the date is stored as a string, so we need to convert it to a Date object to use it in our app
       description: response.data[key].description,
     };
     expenses.push(expenseObj); // this will push the expense object into the expenses array
   }
   // axios gives us a data property in the response object which contains the data that we fetched from the database, so we can access the data using response.data
+  return expenses; // this will return the expenses array which contains all the expenses that we fetched from the database
 }
