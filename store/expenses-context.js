@@ -55,7 +55,7 @@ function ExpensesContextProvider({ children }) {
   }
 
   function setExpenses(expenses) {
-    dispatch({ type: "SET", payload: expenses }); // this will set the expenses array, we are not using it in this app but we can use it to set the expenses array from the firebase database
+    dispatch({ type: "SET", payload: expenses }); // this will set the expenses array to only store the iputed data on firebase database ad use the inputed data to update the expenses array with the added expense so as to save it from having to fetch it again from the firebase database and reload when we already have the data in the context
   }
   function deleteExpense(id) {
     dispatch({ type: "DELETE", payload: id }); // this will delete an expense from the expenses array
