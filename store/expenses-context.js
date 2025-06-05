@@ -17,13 +17,15 @@ function expensesReducer(state, action) {
   // the action.type is a property of the action object that specifies the type of operation to perform. it's used to determine which case in the switch statement should be executed, in here the action object has two parts, the type(a string that identifies the action to be performed(e.g 'ADD')) and the payload(additional data required to perform the action (e.g expense details or ID))
   switch (action.type) {
     case "ADD":
-      const id = new Date().toString() + Math.random().toString(); // this will create a unique id for the expense, we are using the current date and a random number to create a unique id
+      // we dont need this anymore because firebase automatically generates a unique id for each piece of data that we store in the database which we get when we return action.payload, which we would use later in the code to update and delete an expense so we need it to target the correct expense and using ours would cause errors.
+      // const id = new Date().toString() + Math.random().toString(); // this will create a unique id for when we add an expense, we are using the current date and a random number to create a unique id
 
       // this will add a new expense to the expenses array
-      return [{ ...action.payload, id: id }, ...state]; // when the dispatch function is called, it will call the reducer function and pass the current state and the action object to the reducer function, the reducer function will then return the new state, in here we are using the spread operator to copy the current state and add the new expense to the beginning of the array
+      return [action.payload, ...state]; // when the dispatch function is called, it will call the reducer function and pass the current state and the action object to the reducer function, the reducer function will then return the new state, in here we are using the spread operator to copy the current state and add the new expense to the beginning of the array
     // the action.payload is the new expense object that we want to add to the expenses array, in here we are using the spread operator to copy the current state and add the new expense to the beginning of the array. This way we don't lose the previous expenses and we can add new expenses to the beginning of the array, so that the most recent expense is at the top of the list
     case "SET":
-      return action.payload;
+      const inverted = action.payload.reverse(); // this will reverse the expenses array so that the most recent expense is at the top of the list, we are using the reverse method to reverse the array because firebase returns the data in a chronological order.
+      return inverted;
     case "UPDATE":
       // this will update an expense in the expenses array
       const updateableExpenseIndex = state.findIndex(

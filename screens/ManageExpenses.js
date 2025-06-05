@@ -41,12 +41,13 @@ function ManageExpenses({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(editedExpenseId, expenseData);
     } else {
-      storeExpense(expenseData); // this will send the expense data to the firebase database
-      expensesCtx.addExpense(expenseData);
+      const id = await storeExpense(expenseData); // this will send the expense data to the firebase database
+      expensesCtx.addExpense({ ...expenseData, id: id }); // this will add the new expense to the expenses array, we are passing the id that we got from the storeExpense function to the addExpense function
+      // we are using the spread operator to copy the expenseData object and then we are adding the id property to it, so that we can use it to update or delete the expense later on
     }
     navigation.goBack();
   }

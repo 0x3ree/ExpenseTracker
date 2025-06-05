@@ -8,8 +8,16 @@ const BACKEND_URL = "https://expensetracker-ebaa0-default-rtdb.firebaseio.com";
 // we start by sending a post request inorder to create a new piece of datap and a second argument which is the data that we want to store in the database
 // and we did'nt use the Id instead because firebase automatically generates a unique id for each piece of data that we store in the database, so we don't need to worry about generating an id ourselves
 // (s)const updatedExpense = { ...state[updateableExpenseIndex], ...action.payload }; // this will create a new expense object with the updated values, we are using the spread operator to copy the current expense and then overwrite the values with the new values from the action.payload
-export function storeExpense(expenseData) {
-  axios.post(BACKEND_URL + "/expenses.json", expenseData); //the expenses(we can use any name) and .json(is required by firebase) are the endpoints that we are using to store the data in firebase, the expenses() is the collection name and the .json() is the file name where the data will be stored
+// here when we send data(add new expense) firebase gives us the ID in response to the post request, so we can use it to update or delete the expense later on, so we can use the response from the post request to get the id of the expense that we just added
+
+//POST REQUEST
+export async function storeExpense(expenseData) {
+  const response = await axios.post(
+    BACKEND_URL + "/expenses.json",
+    expenseData
+  ); //the expenses(we can use any name) and .json(is required by firebase) are the endpoints that we are using to store the data in firebase, the expenses() is the collection name and the .json() is the file name where the data will be stored
+  const id = response.data.name; // this will give us the unique id that firebase generates for each piece of data that we store in the database, so we can use it to update or delete the expense later on
+  return id; // this will return the id of the expense that we just added, so our storeexpense function can return(a promise because its an async func and wherever it's called would also be transformed into an async func) the id of the expense that we just added, so we can use it to update or delete the expense later on
 }
 
 // in here we are going to fetch some data from the firebase database, and we are going to use the get method of axios to do that
