@@ -16,7 +16,7 @@ export async function storeExpense(expenseData) {
     BACKEND_URL + "/expenses.json",
     expenseData
   ); //the expenses(we can use any name) and .json(is required by firebase) are the endpoints that we are using to store the data in firebase, the expenses() is the collection name and the .json() is the file name where the data will be stored
-  const id = response.data.name; // this will give us the unique id that firebase generates for each piece of data that we store in the database, so we can use it to update or delete the expense later on
+  const id = response.data.name; // this will give us the unique id that firebase generates for each piece of data that we store in the database(the name prop is given by firebase), so we can use it to update or delete the expense later on
   return id; // this will return the id of the expense that we just added, so our storeexpense function can return(a promise because its an async func and wherever it's called would also be transformed into an async func) the id of the expense that we just added, so we can use it to update or delete the expense later on
 }
 
@@ -39,3 +39,6 @@ export async function fetchExpenses() {
   // axios gives us a data property in the response object which contains the data that we fetched from the database, so we can access the data using response.data
   return expenses; // this will return the expenses array which contains all the expenses that we fetched from the database
 }
+
+export async function updateExpense() {}
+export async function deleteExpense() {}
