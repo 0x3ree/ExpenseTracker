@@ -6,7 +6,7 @@ import ExpenseItem from "./ExpenseItem";
 function renderExpenseItem(itemData) {
   return <ExpenseItem {...itemData.item} />;
 
-  // in here we get the.item from flatlist which is an object labled as item(dummy expenses) by flatlist, that's how we are able to pull out the data from the object
+  // in here we get the.item from flatlist which is an object labled as item(dummy expenses(now chnaged to expense)) by flatlist, that's how we are able to pull out the data from the object
 }
 function ExpensesList({ expenses }) {
   return (

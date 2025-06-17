@@ -40,5 +40,13 @@ export async function fetchExpenses() {
   return expenses; // this will return the expenses array which contains all the expenses that we fetched from the database
 }
 
-export async function updateExpense() {}
-export async function deleteExpense() {}
+export function updateExpense(id, expenseData) {
+  return axios.put(BACKEND_URL + `/expenses/${id}.json`, expenseData);
+  // in here we are using the put method to update the expense data in the database, we are passing the id of the expense that we want to update and the new expense data that we want to update it with
+  // the id is used to target the specific expense that we want to update, and the expenseData is the new data that we want to update it with
+  // this will update the expense data in the database
+}
+export function deleteExpense(id) {
+  axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+  // in here we are using the delete method to delete the expense data from the database, we are passing the id of the expense that we want to delete which is also the same url we used to update the expense data in the database
+}
