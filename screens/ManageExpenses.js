@@ -46,7 +46,7 @@ function ManageExpenses({ route, navigation }) {
   async function confirmHandler(expenseData) {
     if (isEditing) {
       expensesCtx.updateExpense(editedExpenseId, expenseData);
-      await updateExpense(id, expenseData); // this will update the expense in the firebase database
+      await updateExpense(editedExpenseId, expenseData); // this will update the expense in the firebase database
       // we are passing the id of the expense that we want to update and the new expense data that we want to update it with
     } else {
       const id = await storeExpense(expenseData); // this will send the expense data to the firebase database
