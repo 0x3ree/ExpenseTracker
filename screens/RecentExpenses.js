@@ -1,10 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import ExpensesOutput from "../components/Expenses/ExpenseOutPut";
 import { ExpensesContext } from "../store/expenses-context";
 import { getDateMinusdays } from "../util/Date";
 import { fetchExpenses } from "../store/http";
+import LoadingOverlay from "../components/Ui/LoadingOverlay";
 
 function RecentExpenses() {
+  const [isFetching, setIsFetching] = useState(true);
   const expensesCtx = useContext(ExpensesContext);
 
   //{BACKEND}
@@ -14,11 +16,17 @@ function RecentExpenses() {
   // in here when trying to use async functions inside of a useEffect hook, we need to create an inner function and call it inside the useEffect hook, because the useEffect hook does not support async functions directly
   useEffect(() => {
     async function getExpense() {
+      setIsFetching(true); // this will set the isFetching state to true, so that we can show a loading indicator while we are fetching the expenses from the firebase database
       const expenses = await fetchExpenses();
+      setIsFetching(false); // this will set the isFetching state to false, so that we can hide the loading indicator when we are done fetching the expenses from the firebase database
       expensesCtx.setExpenses(expenses); // this will set the expenses array in the context with the expenses that we fetched from the firebase database
     }
     getExpense();
   }, []);
+
+  if (isFetching) {
+    return <LoadingOverlay />; // this will show a loading indicator while we are fetching the expenses from the firebase database
+  }
 
   // in order to get the recent expenses we are filtering the expenses array to get the expenses that are within the last 7 days
   const recentExpenses = expensesCtx.expenses.filter((expense) => {

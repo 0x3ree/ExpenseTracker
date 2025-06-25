@@ -1,14 +1,16 @@
 import { View, StyleSheet } from "react-native";
-import { useLayoutEffect, useContext } from "react";
+import { useLayoutEffect, useContext, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/Styles";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../ManageExpense/ExpenseForm";
 import { storeExpense, updateExpense, deleteExpense } from "../store/http";
+import LoadingOverlay from "../components/Ui/LoadingOverlay";
 
 // in here using the ManageScreen to handle both the edit(when we tap an item(added expense)) and add a new expense. so when we click one the edit it shows a different title from when we click add
 
 function ManageExpenses({ route, navigation }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const expensesCtx = useContext(ExpensesContext); // this will give us access to the expenses context and the functions to update the expenses array
   const editedExpenseId = route.params?.expenseId;
   // the question mark is used to check if the expenseId is undefined or not, if it is undefined it will not throw an error and will just return undefined
@@ -32,18 +34,19 @@ function ManageExpenses({ route, navigation }) {
   }, [navigation, isEditing]);
   // in the course he used async and await but its said that it's not really necessary.
   async function deleteExpenseHandler() {
+    setIsSubmitting(true); // this will set the isSubmitting state to true, so that we can show a loading indicator while we are deleting the expense, and we don't need to add the false part since we are navigating back to the previous screen after the expense is deleted
     await deleteExpense(editedExpenseId); // this will delete the expense from the firebase database
     // we are using the deleteExpense function from the http.js file to delete the expense from the firebase database
     expensesCtx.deleteExpense(editedExpenseId);
     // this will delete the expense from the expenses array
     navigation.goBack();
   }
-
   function cancelHandler() {
     navigation.goBack();
   }
 
   async function confirmHandler(expenseData) {
+    setIsSubmitting(true); // this will set the isSubmitting state to true, so that we can show a loading indicator while we are submitting the expense data
     if (isEditing) {
       expensesCtx.updateExpense(editedExpenseId, expenseData);
       await updateExpense(editedExpenseId, expenseData); // this will update the expense in the firebase database
@@ -56,6 +59,10 @@ function ManageExpenses({ route, navigation }) {
     navigation.goBack();
   }
 
+  if (isSubmitting) {
+    // this will show a loading indicator while we are submitting/ deleting the expense data
+    return <LoadingOverlay />;
+  }
   return (
     <View style={styles.container}>
       <ExpenseForm
